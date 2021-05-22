@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -58,12 +62,23 @@ Route::get('/brand/edit/{id}', [BrandController::class, 'Edit']);
 Route::post('/brand/update/{id}', [BrandController::class, 'Update']);
 Route::get('/brand/delete/{id}', [BrandController::class, 'Delete']);
 
+//Multi Image 
+Route::get('/multi/image', [BrandController::class, 'Multpic'])->name('multi.image');
+Route::post('/multi/add', [BrandController::class, 'StoreImg'])->name('store.image');
+
+
+
 Route::get('/contact', [ContactController::class, 'index'])->name('con');
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
     // $users = User::all();
-    $users = DB::table('users')->get();
+    // $users = DB::table('users')->get();
 
-    return view('dashboard', compact('users'));
+    // return view('dashboard', compact('users'));
+    return view('admin.index');
 
 })->name('dashboard');
+
+
+//User
+Route::get('/user/logout', [BrandController::class, 'Logout'])->name('user.logout');
